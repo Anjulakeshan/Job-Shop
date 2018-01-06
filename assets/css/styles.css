@@ -1,0 +1,96 @@
+/* Body and side bar -------------------------*/
+body {
+    background: #e6e6e6;
+}
+
+.main-content {
+    margin-left: 210px;
+    padding: 1em;
+}
+@media only screen and (min-width: 768px){
+	#sidebar{
+		visibility: visible;
+	}
+	[class*="mobile only"]{
+		display: none !important;
+	}
+}
+@media only screen and (max-width: 767px) {
+	[class*="mobile hidden"],
+	[class*="tablet only"]:not(.mobile),
+	[class*="computer only"]:not(.mobile),
+	[class*="large screen only"]:not(.mobile),
+	[class*="widescreen only"]:not(.mobile),
+	[class*="or lower hidden"] {
+		display: none !important;
+	}
+	.main-content {
+		margin-left: 0px;
+	}
+}
+
+#login_grid{
+	height: 100%;
+}
+
+/* Fire Horizontal Menu -------------------------*/
+.fire.horizontal.menubar{
+	border-radius: 0rem;
+	margin-top: -1rem;
+	margin-bottom: 1rem;
+	margin-left: -1rem;
+	margin-right: -1rem;
+	padding: 0.4em 1em;
+	background: #FFFFFF;
+	box-shadow: 0px 1px 2px 0 rgba(34, 36, 38, 0.15);
+}
+.fire.horizontal.menubar a i{
+	vertical-align: inherit;
+}
+.fire.horizontal.menubar .ui.header{
+	margin-right: 1em;
+}
+
+/* Dashboard styles -------------------------*/
+.ui.grid.dashboard .ui.cards .extra.content .buttons .button{
+	border-radius: 0.28571429rem;
+	margin: 4px;
+	width: 45%;
+}
+
+.ui.grid.dashboard .cards .detail{
+	margin-top: 0.4em;
+}
+
+/* Table styles -------------------------*/
+
+.ui.table .button{
+	margin-top: 2px;
+	margin-bottom: 2px;
+}
+.ui.table tfoot.highlighted th{
+	border-top: 1px solid rgba(34, 36, 38, 0.4);
+	background: #F9FAFB;
+	font-weight: bold;
+}
+
+/* project  styles -------------------------*/
+.ui.grid.project.details .detail{
+    margin-top: 0.5em;
+    font-size:1.1em ;
+}
+
+/* Toggle Visiblity of Columns, Segments etc -------------------------*/
+.toggle.column{
+	transition: all 0.5s;
+}
+.toggle.hidden.column{
+	opacity: 0;
+	padding-top: 0 !important;
+	padding-bottom: 0 !important;
+	max-height: 0px;
+}
+.toggle.visible.column{
+	max-height: 1000px;
+	opacity: 1;
+}
