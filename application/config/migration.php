@@ -140,7 +140,7 @@ $config['migration_auto_latest'] = FALSE;
 
 */
 
-$config['migration_version'] = 20180106184100;
+$config['migration_version'] = 20180106225600;
 
 
 
