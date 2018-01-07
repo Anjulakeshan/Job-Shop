@@ -3,6 +3,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
 $route['migrate'] = 'migration';
 
+$route['requests'] = 'request/index';
 $route['users'] = 'users';
 $route['login'] = 'authorization/login';
 $route['logout'] = 'authorization/logout';

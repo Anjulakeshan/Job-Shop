@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 	<?php  
-		if(!isset($title)) $title = 'Online Services';
+		if(!isset($title)) $title = 'Job Shop';
 	?>
 	<head>
 		<title><?=$title?></title>

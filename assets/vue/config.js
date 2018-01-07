@@ -1,5 +1,5 @@
-var AJAX_ROOT = 'http://localhost/fire/api/';
-var BASE_URL = 'http://localhost/fire/';
+var AJAX_ROOT = 'http://localhost/Online-Services/api/';
+var BASE_URL = 'http://localhost/Online-Services/';
 var TIME_NOW = new Date();
 
 var DATE_TODAY = new Date();
