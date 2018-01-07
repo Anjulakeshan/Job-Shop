@@ -9,7 +9,7 @@
 		<div class="sixteen wide column">
 			<div class="ui segments">
 				<div class="ui segment">
-					<h4 class="ui header">On Going Projects</h4>
+					<h4 class="ui header">Dashboard</h4>
 				</div>
 			</div>
 		</div>

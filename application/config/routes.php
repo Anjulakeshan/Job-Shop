@@ -3,6 +3,9 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
 $route['migrate'] = 'migration';
 
+$route['received/pending'] = 'received/pending_jobs';
+$route['received/waiting'] = 'received/received_jobs';
+$route['received'] = 'received/index';
 $route['requests'] = 'request/index';
 $route['users'] = 'users';
 $route['login'] = 'authorization/login';

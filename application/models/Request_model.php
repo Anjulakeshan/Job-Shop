@@ -12,12 +12,11 @@ class Request_model extends CI_Model
 		return $this->db->get('jobs')->row_array();
 	}
 	function get_requested_jobs(){
-		$this->db->order_by('id', 'desc');
+		$this->db->order_by('date', 'desc');
 		return $this->db->get_where('jobs',array('state'=>'request'))->result_array();
 	}
 	function get_paged_requested_jobs($offset=0, $count=500){
-		$this->db->where('state', 'request');
-		$this->db->order_by('id', 'desc');
+		$this->db->order_by('date', 'desc');
 		$this->db->limit($count, $offset);
 		return $this->db->get_where('jobs',array('state'=>'request'))->result_array();
 	}

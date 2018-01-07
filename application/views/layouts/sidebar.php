@@ -8,16 +8,16 @@
 	<div class="ui divider" style="padding-right: 60px"></div>
 	<a class="item" style="font-size: 13px; padding: 8px;" href="<?php echo base_url(''); ?>"><i class="large dashboard icon"></i>Dashboard</a>
 	<a class="item" style="font-size: 13px; padding: 8px;" href="<?php echo base_url('requests'); ?>"><i class="large send icon"></i>Inbound Requests</a>
-	<a class="item" style="font-size: 13px; padding: 8px;" href="<?php echo base_url(''); ?>"><i class="large in cart icon"></i>Received Jobs</a>
-	<a class="item" style="font-size: 13px; padding: 8px;" href="<?php echo base_url(''); ?>"><i class="large remove circle icon"></i>Rejected Jobs</a>
-	<a class="item" style="font-size: 13px; padding: 8px;" href="<?php echo base_url(''); ?>"><i class="large write icon"></i>Jobs in Progress</a>
-	<a class="item" style="font-size: 13px; padding: 8px;" href="<?php echo base_url(''); ?>"><i class="large credit card alternative icon"></i>Ready to Dispatch</a>
-	<a class="item" style="font-size: 13px; padding: 8px;" href="<?php echo base_url(''); ?>"><i class="large check mark icon"></i>Completed Jobs</a>
+	<a class="item" style="font-size: 13px; padding: 8px;" href="<?php echo base_url('received'); ?>"><i class="large in cart icon"></i>Received Jobs</a>
+	<a class="item" style="font-size: 13px; padding: 8px;" href="<?php echo base_url('rejected'); ?>"><i class="large remove circle icon"></i>Rejected Jobs</a>
+	<a class="item" style="font-size: 13px; padding: 8px;" href="<?php echo base_url('in_progress'); ?>"><i class="large write icon"></i>Jobs in Progress</a>
+	<a class="item" style="font-size: 13px; padding: 8px;" href="<?php echo base_url('dispatch'); ?>"><i class="large credit card alternative icon"></i>Ready to Dispatch</a>
+	<a class="item" style="font-size: 13px; padding: 8px;" href="<?php echo base_url('completed'); ?>"><i class="large check mark icon"></i>Completed Jobs</a>
 
 	<div class="ui divider"></div>
 	<?php if($this->aauth->is_admin()){ ?>
 	<a class="item" href="<?php echo base_url('users'); ?>"><i class="user icon"></i>Users</a>
 	<?php } ?>
-	<a class="item" style="font-size: 10px; padding: 8px;" href="<?php echo base_url('settings'); ?>"><i class="settings icon"></i>Settings</a>
+	<a class="item" style="font-size: 10px; padding: 8px;" href="<?php echo base_url('settings'); ?>"><i class="settings icon"></i>Account Settings</a>
 	<a class="item" style="font-size: 10px; padding: 8px;" href="<?php echo base_url('logout'); ?>">Logout</a>
 </div>

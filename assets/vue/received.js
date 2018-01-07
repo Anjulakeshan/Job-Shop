@@ -1,61 +1,39 @@
-Vue.component('requests-table', {
-	props: ['requests', 'onDelete', 'onEdit'],
-	methods: { 
-		onDeleteClick: function (request) {
-			var data = { id: request.id};
-			var confirmDialog = this.$refs.confirmdialog;
-			confirmDialog.show('Delete Requeset', 'Are you sure you want to delete this Request?', 'Delete', 'red', data);
-		},
-		onEditClick: function (request) {
-			this.onEdit(request);
-		},
-		onDeleteApproved: function (data) {
-			this.$http.post(AJAX_ROOT+'request/delete_request', data).then(response => {
-				if(response.body.status == 1) this.onDelete();
-			}, response => {
-				if(response.body.status <= 0) {
-					this.$refs.msgdialog.show('An Error Occured', response.body.detail, 'error');
-				}
-			});
+Vue.component('received-table', {
+	props: ['receives', 'onSend'],
+	methods: {
+		onSendClick: function (receive) {
+			this.onSend(receive);
 		}
 	},
 	template: '<div>\
 					<table class="ui celled table">\
 						<thead><tr>\
-							 <th>Customer</th> <th>Product</th> <th>Colour</th> <th>Height</th> <th>Width</th>\
-							 <th>Length</th> <th>Quantity</th> <th>Requested Date</th> <th>Budget</th><th>User Description</th>\
-							 <th>Actions</th>\
+							 <th>Customer</th> <th>Product</th> <th>Colour</th> <th>Quantity</th> <th>Requested Date</th> <th>Amount</th> <th>Action</th>\
 						</tr></thead>\
 						<tbody>\
-							<tr v-for="request in requests">\
-								<td><a class="ui small label">{{ request.customer }}</a></td>\
-								<td>{{ request.material }}</td>\
-								<td>{{ request.colour }}</td>\
-								<td>{{ request.height }}</td>\
-								<td>{{ request.width }}</td>\
-								<td>{{ request.length }}</td>\
-								<td>{{ request.quantity }}</td>\
-								<td>{{ request.date }}</td>\
-								<td>{{ request.budget }}</td>\
-								<td>{{ request.user_description }}</td>\
+							<tr v-for="receive in receives">\
+								<td><a class="ui small label">{{ receive.customer }}</a></td>\
+								<td>{{ receive.material }}</td>\
+								<td>{{ receive.colour }}</td>\
+								<td>{{ receive.quantity }}</td>\
+								<td>{{ receive.date }}</td>\
+								<td>{{ receive.amount }}</td>\
 								<td>\
-									<a class="ui mini green button" v-on:click="onEditClick(request)"><i class="checkmark box icon"></i>Accept</a>\
-									<a class="ui mini red button" v-on:click="onDeleteClick(request)"><i class="ban icon"></i>Delete</a>\
+									<a class="ui mini green button" v-on:click="onSendClick(receive)"><i class="send outline icon"></i>Ready to Process</a>\
 								</td>\
 							</tr>\
 						</tbody>\
 					</table>\
-					<confirmation-dialog v-bind:on-ok="onDeleteApproved" ref="confirmdialog"></confirmation-dialog>\
 					<message-dialog ref="msgdialog"></message-dialog>\
 				</div>'
 });
 
-Vue.component('requests-add', {
-	props: ['onAdd', 'requests'],
+Vue.component('received-add', {
+	props: ['onAdd', 'receives'],
 	data: function () {
 		return { id: null, customer: 0, material: '', height: 0, width: 0, length: 0, colour: '', user_description: '',
-		date: DATE_TODAY, quantity: 0, budget: 0, tax: 0, discount: 0, admin_description: '',
-		state: 'pending', busy : false, showAdd : true};
+		date: DATE_TODAY, quantity: 0, budget: 0, tax: 0, discount: 0, admin_description: '', amount: 0,
+		state: 'in_progress', busy : false, showAdd : true};
 	},
 	methods: { 
 		init: function (id, customer, material, height, width, length, colour, user_description, date, quantity, budget, tax, discount, amount, admin_description, state, showAdd) {
@@ -80,7 +58,7 @@ Vue.component('requests-add', {
 				discount : this.discount, amount : this.amount, admin_description : this.admin_description, state : this.state,
 				new: 1*this.showAdd };
 			this.busy = true;
-			this.$http.post(AJAX_ROOT+'request/accept_request', data).then(response => {
+			this.$http.post(AJAX_ROOT+'received/accept_received', data).then(response => {
 				this.busy = false;
 				if(response.body.status <=0) this.$refs.msgdialog.show('An Error Occured', response.body.detail, 'error');
 				else{
@@ -94,18 +72,9 @@ Vue.component('requests-add', {
 			return $(this.$el).form('validate form');
 		}
 	},
-	computed: {
-		amount: function(){
-			if(Number(this.budget) + Number(this.tax) >= this.discount ){
-				var result = Number(this.budget) + Number(this.tax) - Number(this.discount);
-				return isNaN(result) ? 0 : result;
-			}
-			else return 0;
-		}
-	},
 	mounted: function () {	//validation rules set when compponent mounted in dom
 		$(this.$el).form({
-			fields: { id : 'empty', customer : 'minLength[1]', date : 'minLength[8]', amount : 'decimal', state : 'pending'}
+			fields: { id : 'empty', customer : 'minLength[1]', date : 'minLength[8]', amount : 'decimal', state : 'in_progress'}
 		});
 		$(this.$el).find('.ui.dropdown').dropdown();
 	},
@@ -119,12 +88,12 @@ Vue.component('requests-add', {
 						<label for="date">Requested Date</label>\
 						<div class="ui calender input left icon" >\
 							<i class="calendar icon"></i>\
-							<input type="text" v-model="date" name="date" disabled>\
+							<date-field v-model="date" v-bind:name="\'date\'" ref="datefield"></date-field>\
 						</div>\
 					</div>\
 				</div>\
 				<div class="field">\
-					<label for="material">Product</label>\
+					<label for="material">Material</label>\
 					<input v-model="material" type="text" name="material">\
 				</div>\
 				<div class="field">\
@@ -162,26 +131,26 @@ Vue.component('requests-add', {
 					<input v-model="admin_description" type="text" name="admin_description" disabled>\
 				</div>\
 				<div class="field" v-if="showAdd">\
-					<div v-on:click="add" class="ui primary button">Add</div>\
+					<div v-on:click="add" class="ui primary button">Process</div>\
 				</div>\
 				<div v-if="busy" class="ui active inverted dimmer"><div class="ui text loader">Saving</div></div>\
 				<message-dialog ref="msgdialog"></message-dialog>\
 			</form>'
 });
 
-Vue.component('requests-accept', {
-	props: ['onUpdate','requests'],
+Vue.component('received-accept', {
+	props: ['onUpdate','receives'],
 	data: function () {
 		return { id: null, customer: 0, material: '', height: 0, width: 0, length: 0, colour: '', user_description: '',
-		date: DATE_TODAY, quantity: 0, budget: 0, tax: 0, discount: 0, admin_description: '',
-		state: 'pending', busy : false };
+		date: DATE_TODAY, quantity: 0, budget: 0, tax: 0, discount: 0, admin_description: '', amount: 0,
+		state: 'in_progress', busy : false };
 	},
 	methods: { 
-		showDialog: function (request) {
+		showDialog: function (receive) {
 			var editfield = this.$refs.editfield;
-			editfield.init(request.id, request.customer, request.material, request.height, request.width, request.length, request.colour,
-				request.user_description, request.date, request.quantity, request.budget, request.tax, request.discount, request.amount,
-				request.admin_description, 'pending', false);
+			editfield.init(receive.id, receive.customer, receive.material, receive.height, receive.width, receive.length, receive.colour,
+				receive.user_description, receive.date, receive.quantity, receive.budget, receive.tax, receive.discount, receive.amount,
+				receive.admin_description, 'in_progress', false);
 			$(this.$el).modal({}).modal({ 
 				onApprove: function(){
 					editfield.add();
@@ -189,18 +158,18 @@ Vue.component('requests-accept', {
 				}
 			}).modal('setting', 'closable', false).modal('show');
 		},
-		closeDialog: function (request) {
+		closeDialog: function (receive) {
 			this.onUpdate();
 			$(this.$el).modal({}).modal('hide');
 		}
 	},
-	template: '<div class="ui small modal" id="requests-accept">\
-				<div class="header">Accept Customer Request</div>\
+	template: '<div class="ui small modal" id="received-accept">\
+				<div class="header">Ready to process the job</div>\
 					<div class="content">\
-						<requests-add v-bind:on-add="closeDialog" :requests="requests" ref="editfield"></requests-add>\
+						<received-add v-bind:on-add="closeDialog" :receives="receives" ref="editfield"></received-add>\
 					</div>\
 					<div class="actions">\
-						<div class="ui blue approve button">Accept</div>\
+						<div class="ui blue approve button">Process</div>\
 						<div class="ui cancel button">Cancel</div>\
 					</div>\
 				</div>'
