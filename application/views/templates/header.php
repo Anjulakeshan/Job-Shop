@@ -1,6 +1,6 @@
 <?php  
 	$this->load->helper('url');
-	if(!isset($title)) $title = 'Online Services';
+	if(!isset($title)) $title = 'Job Shop';
 ?>
 <html>
 	<head>

@@ -1,5 +1,5 @@
-var AJAX_ROOT = 'http://localhost/Online-Services/api/';
-var BASE_URL = 'http://localhost/Online-Services/';
+var AJAX_ROOT = 'http://localhost/job-shop/api/';
+var BASE_URL = 'http://localhost/job-shop/';
 var TIME_NOW = new Date();
 
 var DATE_TODAY = new Date();
