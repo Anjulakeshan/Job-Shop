@@ -1,12 +1,14 @@
+
 <?php  $this->load->view('templates/header'); ?>
 
 <div class="ui middle aligned grid" id="login_grid">
 	<div class="red row">
 		<div class="five wide column"></div>
 		<div class="center aligned six wide column">
-			<div class="ui image"><img src="<?=base_url('assets/img/logo.png' )?>"/></div>
-			
-			<div class="ui left aligned segment" style="background-color: #9E93A1">
+			<!---->
+			 
+			<div class="ui left aligned segment" style="background-color: #ffffff; wide:350px;">
+			    <div class="ui image"><img src="<?=base_url('assets/img/logo.png' )?>"/></div>
 				<?php  if($failed==1){ ?>
 				<div class="ui warning message">
 					<div class="header">Invalied username or Password</div>
@@ -14,11 +16,11 @@
 				<?php }?>
 				<form class="ui large form" action="" method="post">
 					<div class="field">
-						<label class="ui header"><i class="user icon"></i>Username</label>
+						<label class="ui header"><!--<i class="user icon">--></i>Username</label>
 						<input name="username" placeholder="Username" type="text">
 					</div>
 					<div class="field">
-						<label class="ui header"><i class="privacy icon"></i>Password</label>
+						<label class="ui header"><!--<i class="privacy icon">--></i>Password</label>
 						<input name="password" placeholder="Password" type="password">
 					</div>
 					<div class="field">
